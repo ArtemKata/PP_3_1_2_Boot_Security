@@ -2,7 +2,6 @@ package ru.kata.spring.boot_security.demo.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,8 +9,6 @@ import ru.kata.spring.boot_security.demo.Models.User;
 import ru.kata.spring.boot_security.demo.Models.Role;
 import ru.kata.spring.boot_security.demo.Repositories.RoleRepositoryImpl;
 import ru.kata.spring.boot_security.demo.Repositories.UserRepositoryImpl;
-
-
 import javax.transaction.Transactional;
 import java.util.List;
 @Service

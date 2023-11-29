@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.Models.Role;
 import ru.kata.spring.boot_security.demo.Models.User;
 import ru.kata.spring.boot_security.demo.Service.RoleService;
-import ru.kata.spring.boot_security.demo.Service.RoleServiceImpl;
 import ru.kata.spring.boot_security.demo.Service.UserService;
-import ru.kata.spring.boot_security.demo.Service.UserServiceImpl;
-
 import java.util.ArrayList;
 import java.util.List;
 
