@@ -1,12 +1,11 @@
 package ru.kata.spring.boot_security.demo;
 
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import ru.kata.spring.boot_security.demo.Models.Role;
-import ru.kata.spring.boot_security.demo.Models.User;
-import ru.kata.spring.boot_security.demo.Service.RoleService;
-import ru.kata.spring.boot_security.demo.Service.UserService;
+import ru.kata.spring.boot_security.demo.models.Role;
+import ru.kata.spring.boot_security.demo.models.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
+import ru.kata.spring.boot_security.demo.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +14,13 @@ public class AddUserAndRole implements CommandLineRunner {
 
     private final UserService userService;
     private final RoleService roleService;
-    private final PasswordEncoder encoder;
 
 
-    public AddUserAndRole(UserService userService, RoleService roleService, PasswordEncoder encoder) {
+
+    public AddUserAndRole(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.encoder = encoder;
+
     }
 
     @Override

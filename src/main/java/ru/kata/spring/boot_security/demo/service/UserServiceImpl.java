@@ -1,27 +1,24 @@
-package ru.kata.spring.boot_security.demo.Service;
+package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.Models.User;
-import ru.kata.spring.boot_security.demo.Models.Role;
-import ru.kata.spring.boot_security.demo.Repositories.RoleRepositoryImpl;
-import ru.kata.spring.boot_security.demo.Repositories.UserRepositoryImpl;
+import ru.kata.spring.boot_security.demo.models.User;
+import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 import javax.transaction.Transactional;
 import java.util.List;
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
-    private final UserRepositoryImpl userRepository;
-    private final RoleRepositoryImpl roleRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     @Autowired
-    public UserServiceImpl(UserRepositoryImpl userRepository, RoleRepositoryImpl roleRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -32,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUser(Integer id) {
+    public User findUser(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException(String.format("User with ID %d not found", id)));
 
@@ -43,32 +40,34 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Transactional
     @Override
     public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
+    @Transactional
     @Override
-    public void update(User user, Integer id) {
-        User userToBeUpdated = userRepository.findById(id).orElse(null);
-        if (userToBeUpdated == null){
-            throw new NullPointerException("User для редактирования не найден");
-        }
-        userToBeUpdated.setUsername(user.getUsername());
+    public void update(User user, Long id) {
+        User userToBeUpdated = userRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException("User для редактирования не найден"));
 
+        userToBeUpdated.setUsername(user.getUsername());
         userToBeUpdated.setPassword(passwordEncoder.encode(user.getPassword()));
         userToBeUpdated.setAge(user.getAge());
-
         userToBeUpdated.setRoles(user.getRoles());
+
         userRepository.save(userToBeUpdated);
     }
+    @Transactional
     @Override
-    public void delete(Integer id) {
+    public void delete(Long id) {
         userRepository.deleteById(id);
     }
-
-    public List<Role> findAllRoles() {
-        return roleRepository.findAll();
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username).get();
     }
+
 }
