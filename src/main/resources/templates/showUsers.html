@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <!-- Добавьте необходимые стили и скрипты -->
+    <style>
+        /* Добавьте стили по необходимости */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .view-button {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .delete-button {
+            background-color: #f44336;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Roles</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:each="role : ${user.roles}" th:text="${role.name}" th:if="${role.name}"></td>
+        <td>
+            <a th:href="@{/admin/showByID(id=${user.id})}" class="view-button">View</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/admin/new}" class="create-button">Create New User</a>
+<a href="/logout" class="logout-button">Logout</a>
+</body>
+</html>
