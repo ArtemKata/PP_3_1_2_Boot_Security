@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class RoleServiceImpl implements RoleService{
 
 
@@ -35,7 +34,7 @@ public class RoleServiceImpl implements RoleService{
         return roleRepository.findAll();
     }
 
-
+    @Override
     public Optional<Role> getRoleById(Long roleId) {
         return roleRepository.findById(roleId);
     }

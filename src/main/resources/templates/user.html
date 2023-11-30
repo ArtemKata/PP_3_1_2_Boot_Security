@@ -3,58 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        a.logout-button {
-            display: inline-block;
-            text-align: center;
-            color: white;
-            background-color: green;
-            padding: 14px 20px;
-            text-decoration: none;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border: none;
-            border-radius: 4px;
-        }
-        a.logout-button:hover {
-            background-color: darkred;
-        }
-
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Role</th>
-        <th>Password</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user : ${user}">
-        <td th:text="${user.getId()}"></td>
-        <td th:text="${user.getUsername()}"></td>
-        <td th:each="role : ${user.roles}" th:text="${role.name}" th:if="${role.name}"></td>
-        <td th:text="${user.getPassword()}"></td>
-
-
-        </button>
-    </tr>
-    </tbody>
-</table>
-<br/>
-<a href="/logout" class="logout-button">Logout</a>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Role</th>
+            <th>Password</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${user}">
+            <td th:text="${user.getId()}"></td>
+            <td th:text="${user.getUsername()}"></td>
+            <td th:each="role : ${user.roles}" th:text="${role.name}" th:if="${role.name}"></td>
+            <td th:text="${user.getPassword()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <a href="/logout" class="btn btn-danger">Logout</a>
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

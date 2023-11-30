@@ -4,69 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New User</title>
-    <style>
-        /* Ваши стили */
-        form {
-            margin: 20px;
-        }
-
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            margin-bottom: 10px;
-        }
-
-        .error-label {
-            color: red;
-        }
-
-        .create-button {
-            background-color: #4caf50;
-            color: white;
-            padding: 8px 16px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            margin: 10px 0;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-    </style>
+    <!-- Добавьте ссылку на Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
 <h2>Create New User</h2>
 
 <form th:method="POST" th:action="@{/admin/create}" th:object="${user}">
-    <label for="username">Username: </label>
-    <input type="text" th:field="*{username}" id="username"/>
+    <div class="form-group">
+        <label for="username">Username: </label>
+        <input type="text" class="form-control" th:field="*{username}" id="username"/>
+    </div>
 
-    <label for="password">Password: </label>
-    <input type="password" th:field="*{password}" id="password"/>
+    <div class="form-group">
+        <label for="password">Password: </label>
+        <input type="password" class="form-control" th:field="*{password}" id="password"/>
+    </div>
 
-    <label for="age">Age: </label>
-    <input type="number" th:field="*{age}" id="age"/>
+    <div class="form-group">
+        <label for="age">Age: </label>
+        <input type="number" class="form-control" th:field="*{age}" id="age"/>
+    </div>
 
-    <label for="roles">Roles: </label>
-    <select th:field="*{roles}" id="roles">
-        <option th:each="role : ${allRoles}" th:text="${role.name}" th:value="${role.id}">role</option>
-    </select>
+    <div class="form-group">
+        <label for="roles">Roles: </label>
+        <select class="form-control" th:field="*{roles}" id="roles">
+            <option th:each="role : ${allRoles}" th:text="${role.name}" th:value="${role.id}">role</option>
+        </select>
+    </div>
 
-
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <button type="submit" class="create-button">create!</button>
+    <button type="submit" class="btn btn-primary">create!</button>
 </form>
 <br/>
-<br/>
-<a href="/logout" class="logout-button">Logout</a>
+<a href="/logout" class="btn btn-danger">Logout</a>
+
+<!-- Добавьте ссылку на Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
-

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Index</title>
+  <!-- Добавьте ссылку на Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>First Name</th>
+    <th>Role</th>
+    <th>Password</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="user : ${user}">
+    <td th:text="${user.getId()}"></td>
+    <td th:text="${user.getUsername()}"></td>
+    <td th:each="role : ${user.roles}" th:text="${role.name}" th:if="${role.name}"></td>
+    <td th:text="${user.getPassword()}"></td>
+    <td>
+      <a th:href="@{/admin/{id}/edit(id=${user.id})}" class="btn btn-primary">Update User</a>
+      <form th:action="@{/admin/{id}/delete(id=${user.id})}" method="post" id="deleteForm">
+        <input type="hidden" name="_method" value="delete"/>
+        <button type="submit" class="btn btn-danger">Delete User</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<br/>
+<a href="/logout" class="btn btn-danger">Logout</a>
+<!-- Добавьте ссылку на Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
