@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.service;
+package ru.kata.spring.boot_security.demo.services;
 
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.models.Role;
@@ -6,7 +6,6 @@ import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RoleServiceImpl implements RoleService{
@@ -18,24 +17,27 @@ public class RoleServiceImpl implements RoleService{
         this.roleRepository = roleRepository;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void save(Role role) {
         roleRepository.save(role);
     }
 
     @Override
+    @Transactional
     public Role getRoleByName(String name) {
-        return roleRepository.getByName(name);
+        return roleRepository.getRoleByName(name);
     }
 
     @Override
     public List<Role> getAllRoles() {
-        return roleRepository.findAll();
+        return roleRepository.findAllBy();
     }
 
     @Override
-    public Optional<Role> getRoleById(Long roleId) {
-        return roleRepository.findById(roleId);
+    @Transactional
+    public Role getRoleById(int roleId) {
+        return roleRepository.getRoleById(roleId);
     }
+
 }

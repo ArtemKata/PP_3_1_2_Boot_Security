@@ -1,8 +1,14 @@
 package ru.kata.spring.boot_security.demo.models;
+
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -11,38 +17,38 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "age")
-    private long age;
+    private int age;
 
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List <Role> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String username, int age, String password, List <Role> roles) {
+    public User(String username, int age, String password, List<Role> roles) {
         this.username = username;
         this.age = age;
         this.password = password;
         this.roles = roles;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -82,11 +88,11 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    public long getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(Long age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -116,4 +122,3 @@ public class User implements UserDetails {
         return Objects.hash(id, username, age, password, roles);
     }
 }
-

@@ -1,6 +1,5 @@
-package ru.kata.spring.boot_security.demo.service;
+package ru.kata.spring.boot_security.demo.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,19 +7,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
-import javax.transaction.Transactional;
-import java.util.List;
-@Service
 
+import java.util.List;
+
+@Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    @Autowired
+
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -29,27 +29,29 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User findUser(Long id) {
+    public User getUserById(long id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException(String.format("User with ID %d not found", id)));
-
     }
 
-    @Override
-    public List<User> allUsers() {
-        return userRepository.findAll();
-    }
-
-    @Transactional
     @Override
     public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
-    @Transactional
     @Override
-    public void update(User user, Long id) {
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username).get();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void update(long id, User user) {
         User userToBeUpdated = userRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException("User для редактирования не найден"));
 
@@ -59,16 +61,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userToBeUpdated.setRoles(user.getRoles());
 
         userRepository.save(userToBeUpdated);
+
     }
-    @Transactional
+
     @Override
-    public void delete(Long id) {
+    public void removeUser(long id) {
         userRepository.deleteById(id);
     }
-    @Override
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username).get();
-    }
-
 }
-
